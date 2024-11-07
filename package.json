@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.686.0",
+    "@aws-sdk/lib-dynamodb": "^3.686.0",
+    "axios": "^1.7.7",
+    "http-status-codes": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "axios-mock-adapter": "^2.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2"
+  }
+}

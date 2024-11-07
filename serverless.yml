@@ -1,0 +1,51 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: isxcompany
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: sls-demo
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: sls-softtek
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:Scan
+      Resource:
+        - !GetAtt ModelsTable.Arn
+
+resources:
+  Resources:
+    ModelsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: models_softtek
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
+functions:
+  getModels:
+    handler: functions/getModels.getModels
+    events:
+      - httpApi:
+          path: /models
+          method: get
+    environment:
+      DYNAMODB_TABLE: !Ref ModelsTable
+  saveModels:
+    handler: functions/saveModels.saveModels
+    events:
+      - httpApi:
+          path: /models
+          method: post
+    environment:
+      DYNAMODB_TABLE: !Ref ModelsTable
